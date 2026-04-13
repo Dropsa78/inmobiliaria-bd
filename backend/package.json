@@ -4,6 +4,7 @@
   "main": "firebase.js",
   "type": "module",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -14,4 +15,7 @@
     "firebase": "^12.12.0",
     "pg": "^8.20.0"
   }
+  
+  
+  
 }
