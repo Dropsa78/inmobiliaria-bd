@@ -7,15 +7,21 @@ function mostrarTab(id) {
   document.getElementById("tab-" + id).classList.add("active");
 }
 
-//////////////////////////////////////////////////
-// LOGIN CLIENTE
-//////////////////////////////////////////////////
 async function loginCliente() {
   const correo = document.getElementById("correoLogin").value.trim();
   const errorEl = document.getElementById("errorLogin");
   errorEl.textContent = "";
 
-  if (!correo) { errorEl.textContent = "Ingresa tu correo"; return; }
+  if (!correo) {
+    errorEl.textContent = "Ingresa tu correo";
+    return;
+  }
+
+  // Validación Gmail
+  if (!correo.endsWith("@gmail.com")) {
+    errorEl.textContent = "Solo se permiten correos Gmail";
+    return;
+  }
 
   try {
     const res = await fetch(`${API}/auth/cliente/login`, {
@@ -31,9 +37,8 @@ async function loginCliente() {
       return;
     }
 
-    // Guardar sesión
     localStorage.setItem("tipo", "cliente");
-    localStorage.setItem("clienteId",     data.cliente.id);
+    localStorage.setItem("clienteId", data.cliente.id);
     localStorage.setItem("clienteNombre", data.cliente.nombre);
 
     window.location.href = "casas.html";
@@ -43,18 +48,22 @@ async function loginCliente() {
   }
 }
 
-//////////////////////////////////////////////////
-// REGISTRO CLIENTE
-//////////////////////////////////////////////////
+
 async function registrarCliente() {
-  const nombre   = document.getElementById("regNombre").value.trim();
-  const correo   = document.getElementById("regCorreo").value.trim();
+  const nombre = document.getElementById("regNombre").value.trim();
+  const correo = document.getElementById("regCorreo").value.trim();
   const telefono = document.getElementById("regTelefono").value.trim();
-  const errorEl  = document.getElementById("errorRegistro");
+  const errorEl = document.getElementById("errorRegistro");
   errorEl.textContent = "";
 
   if (!nombre || !correo) {
     errorEl.textContent = "Nombre y correo son obligatorios";
+    return;
+  }
+
+  // Validación Gmail
+  if (!correo.endsWith("@gmail.com")) {
+    errorEl.textContent = "Solo se permiten correos Gmail";
     return;
   }
 
@@ -73,7 +82,7 @@ async function registrarCliente() {
     }
 
     localStorage.setItem("tipo", "cliente");
-    localStorage.setItem("clienteId",     data.cliente.id);
+    localStorage.setItem("clienteId", data.cliente.id);
     localStorage.setItem("clienteNombre", data.cliente.nombre);
 
     window.location.href = "casas.html";
@@ -83,9 +92,7 @@ async function registrarCliente() {
   }
 }
 
-//////////////////////////////////////////////////
-// LOGIN AGENTE
-//////////////////////////////////////////////////
+
 async function loginAgente() {
   const password = document.getElementById("passwordAgente").value;
   const errorEl  = document.getElementById("errorAgente");
